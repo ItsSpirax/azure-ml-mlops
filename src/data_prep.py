@@ -8,19 +8,17 @@ parser.add_argument("--raw_data", type=str, required=True)
 parser.add_argument("--prep_data_dir", type=str, required=True)
 args = parser.parse_args()
 
-credit_df = pd.read_csv(args.raw_data)
+iris_df = pd.read_csv(args.raw_data)
 
-if "Risk" not in credit_df.columns:
-    if "Purpose" in credit_df.columns:
-        print("Warning: 'Risk' column not found. Remapping 'Purpose' is not valid.")
-        credit_df["Risk"] = credit_df["Age"].apply(lambda x: 1 if x > 30 else 0)
-    else:
-        raise Exception("Your CSV must contain a target column named 'Risk'")
+if "Id" in iris_df.columns:
+    iris_df = iris_df.drop("Id", axis=1)
 
-if "Credit amount" in credit_df.columns:
-    credit_df = credit_df.rename(columns={"Credit amount": "CreditAmount"})
+species_map = {"Iris-setosa": 0, "Iris-versicolor": 1, "Iris-virginica": 2}
+iris_df["Species"] = iris_df["Species"].map(species_map)
 
-train_df, test_df = train_test_split(credit_df, test_size=0.2, random_state=42)
+train_df, test_df = train_test_split(
+    iris_df, test_size=0.2, random_state=42, stratify=iris_df["Species"]
+)
 
 Path(args.prep_data_dir).mkdir(parents=True, exist_ok=True)
 train_df.to_csv(Path(args.prep_data_dir) / "train.csv", index=False)

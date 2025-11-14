@@ -16,15 +16,15 @@ mlflow.autolog(log_models=False)
 train_df = pd.read_csv(Path(args.prep_data_dir) / "train.csv")
 test_df = pd.read_csv(Path(args.prep_data_dir) / "test.csv")
 
-features = ["Duration", "CreditAmount", "Age"]
-target = "Risk"
+features = ["SepalLengthCm", "SepalWidthCm", "PetalLengthCm", "PetalWidthCm"]
+target = "Species"
 
 X_train = train_df[features]
 y_train = train_df[target]
 X_test = test_df[features]
 y_test = test_df[target]
 
-model = LogisticRegression(max_iter=1000)
+model = LogisticRegression(max_iter=200)
 model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)

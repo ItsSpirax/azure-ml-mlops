@@ -1,8 +1,8 @@
 $schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
 type: pipeline
 
-display_name: ci-cd-pipeline-mlops
-experiment_name: ci-cd-pipeline-mlops
+display_name: ci-cd-pipeline-iris-mlops
+experiment_name: ci-cd-pipeline-iris
 
 settings:
   default_compute: azureml:cpu-cluster
@@ -10,9 +10,9 @@ settings:
 inputs:
   pipeline_raw_data:
     type: uri_file
-    path: azureml://subscriptions/62a864c9-87b7-42dc-b40c-c74b95d54368/resourcegroups/mlops/workspaces/azure-ml/datastores/workspaceblobstore/paths/UI/2025-11-14_212359_UTC/credit.csv
+    path: azureml://subscriptions/62a864c9-87b7-42dc-b40c-c74b95d54368/resourcegroups/mlops/workspaces/azure-ml/datastores/workspaceblobstore/paths/UI/2025-11-14_221525_UTC/Iris.csv
 
-jobs:
+jjobs:
   prep_data_job:
     type: command
     component: file:./components/data_prep.yml
@@ -34,4 +34,4 @@ jobs:
     component: file:./components/register_model.yml
     inputs:
       model_dir: ${{parent.jobs.train_model_job.outputs.model_dir}}
-      model_name: "credit-risk-model"
+      model_name: "iris-classifier"
