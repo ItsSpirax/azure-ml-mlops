@@ -12,7 +12,7 @@ inputs:
     type: uri_file
     path: azureml://subscriptions/62a864c9-87b7-42dc-b40c-c74b95d54368/resourcegroups/mlops/workspaces/azure-ml/datastores/workspaceblobstore/paths/UI/2025-11-14_221525_UTC/Iris.csv
 
-jjobs:
+jobs:
   prep_data_job:
     type: command
     component: file:./components/data_prep.yml
