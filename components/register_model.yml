@@ -1,0 +1,19 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: register_risk_model
+display_name: Register Risk Model
+version: 1
+
+inputs:
+  model_dir:
+    type: uri_folder
+  model_name:
+    type: string
+    default: "credit-risk-model"
+
+code: ../src/
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+
+command: >-
+  python register_model.py
+  --model_dir ${{inputs.model_dir}}
+  --model_name ${{inputs.model_name}}

@@ -1,0 +1,32 @@
+name: "Train and Register Model"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  train:
+    name: "Train and Register"
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: "Check out repository"
+      uses: actions/checkout@v3
+
+    - name: "Azure Login"
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: "Install Azure ML CLI"
+      run: |
+        az extension add -n ml --yes
+        
+    - name: "Submit Azure ML Pipeline Job"
+      run: |
+        az ml job create \
+        --file pipeline.yml \
+        --resource-group mlops \
+        --workspace-name azure-ml \
+        --stream

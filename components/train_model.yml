@@ -1,0 +1,20 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: train_risk_model
+display_name: Train Risk Model
+version: 1
+
+inputs:
+  prep_data_dir:
+    type: uri_folder
+
+outputs:
+  model_dir:
+    type: uri_folder
+
+code: ../src/
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+
+command: >-
+  python train_model.py
+  --prep_data_dir ${{inputs.prep_data_dir}}
+  --model_dir ${{outputs.model_dir}}

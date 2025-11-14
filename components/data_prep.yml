@@ -1,0 +1,20 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+name: prep_credit_data
+display_name: Prep Credit Data
+version: 1
+
+inputs:
+  raw_data:
+    type: uri_file
+    
+outputs:
+  prep_data_dir:
+    type: uri_folder
+
+code: ../src/
+environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu:1
+
+command: >-
+  python data_prep.py 
+  --raw_data ${{inputs.raw_data}}
+  --prep_data_dir ${{outputs.prep_data_dir}}
